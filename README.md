@@ -8,8 +8,13 @@ The BUILD file links with the supersim:main build target and adds the source cod
 The result is that proprietary models can be easily used with the fully open-source version of SuperSim 
 without modified any of the existing code and without maintaining a separate fork of the simulator.
 
-To run the simulator with the weird traffic pattern, run the provided configuration file:
+Run the simulator with the weird traffic pattern using the provided configuration file:
 ```sh
 bazel build :supersim
 bazel-bin/supersim config/torus_ioq_blast_weird.json
+```
+
+Run the unit tests:
+```sh
+bazel run :supersim_test
 ```
