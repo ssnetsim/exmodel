@@ -10,13 +10,6 @@ COPTS = [
     "-Wno-unused-parameter",
 ]
 
-LIBS = [
-    "@libprim//:prim",
-    "@supersim//:main",
-    "@libfactory//:factory",
-    "@jsoncpp//:jsoncpp",
-]
-
 cc_library(
     name = "lib",
     srcs = glob(
@@ -37,7 +30,12 @@ cc_library(
         "src",
     ],
     visibility = ["//visibility:private"],
-    deps = LIBS,
+    deps = [
+        "@libprim//:prim",
+        "@supersim//:lib",
+        "@libfactory//:factory",
+        "@jsoncpp//:jsoncpp",
+    ],
     alwayslink = 1,
 )
 
@@ -50,6 +48,7 @@ cc_binary(
     visibility = ["//visibility:public"],
     deps = [
         ":lib",
+        "@supersim//:main",
     ],
 )
 
@@ -68,7 +67,11 @@ cc_library(
     deps = [
         ":lib",
         "@googletest//:gtest_main",
-    ] + LIBS,
+        "@libprim//:prim",
+        "@supersim//:test_lib",
+        "@libfactory//:factory",
+        "@jsoncpp//:jsoncpp",
+    ],
     alwayslink = 1,
 )
 
@@ -81,7 +84,7 @@ cc_test(
     visibility = ["//visibility:public"],
     deps = [
         ":test_lib",
-    ] + LIBS,
+    ],
 )
 
 genrule(

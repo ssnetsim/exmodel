@@ -118,7 +118,7 @@ http_archive(
   strip_prefix = "nicmcd-libsettings-" + hash,
 )
 
-hash = "492c439"
+hash = "f55a69c"
 http_archive(
   name = "supersim",
   urls = ["https://github.com/ssnetsim/supersim/tarball/" + hash],
