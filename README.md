@@ -5,7 +5,7 @@ This repository is an example repository showing how to use SuperSim's "main" bu
 SuperSim is designed to easily integrate proprietary simulation models.
 In this repository we introduce a continuous traffic pattern called "weird".
 The BUILD file links with the supersim:main build target and adds the source code within this repository.
-The result is that proprietary models can be easily used with the fully open-source version of SuperSim 
+The result is that proprietary models can be easily used with the fully open-source version of SuperSim
 without modified any of the existing code and without maintaining a separate fork of the simulator.
 
 Run the simulator with the weird traffic pattern using the provided configuration file:
@@ -14,7 +14,7 @@ bazel build :supersim
 bazel-bin/supersim config/torus_ioq_blast_weird.json
 ```
 
-Run the unit tests:
+Run all the lint, unit, and config tests:
 ```sh
-bazel run :supersim_test
+bazel test :*
 ```

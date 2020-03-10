@@ -10,6 +10,20 @@ COPTS = [
     "-Wno-unused-parameter",
 ]
 
+LIBS = [
+    "@libcolhash//:colhash",
+    "@libprim//:prim",
+    "@libfactory//:factory",
+    "@librnd//:rnd",
+    "@libmut//:mut",
+    "@libbits//:bits",
+    "@libstrop//:strop",
+    "@libfio//:fio",
+    "@libsettings//:settings",
+    "@zlib//:zlib",
+    "@jsoncpp//:jsoncpp",
+]
+
 cc_library(
     name = "lib",
     srcs = glob(
@@ -31,11 +45,8 @@ cc_library(
     ],
     visibility = ["//visibility:private"],
     deps = [
-        "@libprim//:prim",
         "@supersim//:lib",
-        "@libfactory//:factory",
-        "@jsoncpp//:jsoncpp",
-    ],
+    ] + LIBS,
     alwayslink = 1,
 )
 
@@ -49,42 +60,30 @@ cc_binary(
     deps = [
         ":lib",
         "@supersim//:main",
-    ],
+    ] + LIBS,
 )
 
-cc_library(
-    name = "test_lib",
-    testonly = 1,
-    srcs = glob([
-        "src/**/*_TEST*.cc",
-    ]),
-    hdrs = glob([
-        "src/**/*_TEST*.h",
-        "src/**/*_TEST*.tcc",
-    ]),
-    copts = COPTS,
-    visibility = ["//visibility:private"],
-    deps = [
-        ":lib",
-        "@googletest//:gtest_main",
-        "@libprim//:prim",
-        "@supersim//:test_lib",
-        "@libfactory//:factory",
-        "@jsoncpp//:jsoncpp",
-    ],
-    alwayslink = 1,
-)
+[
+    cc_test(
+        name = test_file.replace(".cc", ""),
+        srcs = [test_file],
+        args = [
+            "--gtest_color=yes",
+        ],
+        copts = COPTS,
+        visibility = ["//visibility:public"],
+        deps = [
+            ":lib",
+            "@supersim//:test_lib",
+        ] + LIBS,
+    )
+    for test_file in glob(["src/**/*_TEST.cc"])
+]
 
-cc_test(
-    name = "supersim_test",
-    args = [
-        "--gtest_color=yes",
-    ],
-    copts = COPTS,
-    visibility = ["//visibility:public"],
-    deps = [
-        ":test_lib",
-    ],
+test_suite(
+    name = "unit_tests",
+    tests = [test_file.replace(".cc", "")
+             for test_file in glob(["src/**/*_TEST.cc"])],
 )
 
 genrule(
@@ -108,4 +107,30 @@ genrule(
         "@cpplint",
     ],
     visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "config_files",
+    srcs = glob(["config/*"]),
+)
+
+[
+    sh_test(
+        name = config_file + "_check",
+        srcs = ["scripts/run_example.sh"],
+        args = [
+            config_file,
+        ],
+        data = [
+            ":config_files",
+            ":supersim",
+            "@supersim//:run_example",
+        ],
+    )
+    for config_file in glob(["config/*.json"])
+]
+
+test_suite(
+    name = "config_tests",
+    tests = [config_file + "_check" for config_file in glob(["config/*.json"])],
 )
