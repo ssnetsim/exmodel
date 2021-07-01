@@ -34,19 +34,19 @@ http_archive(
 )
 
 http_file(
-  name = "jsoncpp_build",
-  urls = ["https://raw.githubusercontent.com/nicmcd/pkgbuild/master/jsoncpp.BUILD"],
+    name = "nlohmann_json_build",
+    urls = ["https://raw.githubusercontent.com/nicmcd/pkgbuild/master/nlohmannjson.BUILD"],
 )
 
-version = "1.8.4"
+release = "3.9.1"
 http_archive(
-  name = "jsoncpp",
-  urls = ["https://github.com/open-source-parsers/jsoncpp/archive/" + version + ".tar.gz"],
-  strip_prefix = "jsoncpp-" + version,
-  build_file = "@jsoncpp_build//file:downloaded",
+    name = "nlohmann_json",
+    urls = ["https://github.com/nlohmann/json/archive/v" + release + ".tar.gz"],
+    strip_prefix = "json-" + release,
+    build_file = "@nlohmann_json_build//file:downloaded",
 )
 
-hash = "6b56ef3"
+hash = "ef2951d"
 http_archive(
   name = "libprim",
   urls = ["https://github.com/nicmcd/libprim/tarball/" + hash],
@@ -54,7 +54,7 @@ http_archive(
   strip_prefix = "nicmcd-libprim-" + hash,
 )
 
-hash = "9d1d378"
+hash = "878ff36"
 http_archive(
   name = "libcolhash",
   urls = ["https://github.com/nicmcd/libcolhash/tarball/" + hash],
@@ -62,7 +62,7 @@ http_archive(
   strip_prefix = "nicmcd-libcolhash-" + hash,
 )
 
-hash = "46865ff"
+hash = "5f52dc7"
 http_archive(
   name = "libfactory",
   urls = ["https://github.com/nicmcd/libfactory/tarball/" + hash],
@@ -70,7 +70,7 @@ http_archive(
   strip_prefix = "nicmcd-libfactory-" + hash,
 )
 
-hash = "55db323"
+hash = "868faad"
 http_archive(
   name = "librnd",
   urls = ["https://github.com/nicmcd/librnd/tarball/" + hash],
@@ -78,7 +78,7 @@ http_archive(
   strip_prefix = "nicmcd-librnd-" + hash,
 )
 
-hash = "8a7b8e7"
+hash = "4f7c96e"
 http_archive(
   name = "libmut",
   urls = ["https://github.com/nicmcd/libmut/tarball/" + hash],
@@ -86,7 +86,7 @@ http_archive(
   strip_prefix = "nicmcd-libmut-" + hash,
 )
 
-hash = "8127531"
+hash = "1e9c5b7"
 http_archive(
   name = "libbits",
   urls = ["https://github.com/nicmcd/libbits/tarball/" + hash],
@@ -94,7 +94,7 @@ http_archive(
   strip_prefix = "nicmcd-libbits-" + hash,
 )
 
-hash = "ad29c47"
+hash = "bf6c19f"
 http_archive(
   name = "libstrop",
   urls = ["https://github.com/nicmcd/libstrop/tarball/" + hash],
@@ -102,7 +102,7 @@ http_archive(
   strip_prefix = "nicmcd-libstrop-" + hash,
 )
 
-hash = "528a0a3"
+hash = "9709475"
 http_archive(
   name = "libfio",
   urls = ["https://github.com/nicmcd/libfio/tarball/" + hash],
@@ -110,7 +110,7 @@ http_archive(
   strip_prefix = "nicmcd-libfio-" + hash,
 )
 
-hash = "d7c6272"
+hash = "e738f08"
 http_archive(
   name = "libsettings",
   urls = ["https://github.com/nicmcd/libsettings/tarball/" + hash],
@@ -118,7 +118,36 @@ http_archive(
   strip_prefix = "nicmcd-libsettings-" + hash,
 )
 
-hash = "8e06154"
+hash = "0a1151f"
+http_archive(
+  name = "paragraph",
+    urls = ["https://github.com/paragraph-sim/paragraph-core/tarball/" + hash],
+    type = "tar.gz",
+    strip_prefix = "paragraph-sim-paragraph-core-" + hash,
+)
+
+hash = "97d8af4"
+http_archive(
+    name = "rules_proto",
+    urls = [
+        "https://github.com/bazelbuild/rules_proto/tarball/" + hash,
+    ],
+    type = "tar.gz",
+    strip_prefix = "bazelbuild-rules_proto-" + hash,
+)
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+rules_proto_dependencies()
+rules_proto_toolchains()
+
+hash = "c51510d"
+http_archive(
+    name = "com_google_absl",
+    urls = ["https://github.com/abseil/abseil-cpp/tarball/" + hash],
+    type = "tar.gz",
+    strip_prefix = "abseil-abseil-cpp-" + hash,
+)
+
+hash = "3880d59"
 http_archive(
   name = "supersim",
   urls = ["https://github.com/ssnetsim/supersim/tarball/" + hash],
