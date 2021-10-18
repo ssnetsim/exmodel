@@ -110,7 +110,7 @@ http_archive(
   strip_prefix = "nicmcd-libfio-" + hash,
 )
 
-hash = "a77d70b"
+hash = "264f2b1"
 http_archive(
   name = "libsettings",
   urls = ["https://github.com/nicmcd/libsettings/tarball/" + hash],
@@ -147,7 +147,7 @@ http_archive(
     strip_prefix = "abseil-abseil-cpp-" + hash,
 )
 
-hash = "3880d59"
+hash = "e399ced"
 http_archive(
   name = "supersim",
   urls = ["https://github.com/ssnetsim/supersim/tarball/" + hash],
